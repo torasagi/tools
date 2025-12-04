@@ -30,13 +30,11 @@
         }
 
         function copyToClipboard() {
-            input.select();
-            document.execCommand('copy');
-            
+            await navigator.clipboard.writeText(input.value);
             message.textContent = 'コピーしました！';
             setTimeout(() => {
                 message.textContent = '';
-            }, 2000);
+            }, 1500);
         }
 
         button.addEventListener('click', copyToClipboard);
