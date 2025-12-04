@@ -29,7 +29,7 @@
             input.value = generateVersionString();
         }
 
-        function copyToClipboard() {
+        async function copyToClipboard() {
             await navigator.clipboard.writeText(input.value);
             message.textContent = 'コピーしました！';
             setTimeout(() => {
