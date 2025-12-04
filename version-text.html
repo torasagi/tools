@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <title>バージョンテキスト生成</title>
+</head>
+<body>
+    <input type="text" id="versionText" disabled>
+    <button id="copyButton">コピー</button>
+    <span id="message"></span>
+
+    <script>
+        const input = document.getElementById('versionText');
+        const button = document.getElementById('copyButton');
+        const message = document.getElementById('message');
+
+        function generateVersionString() {
+            const now = new Date();
+            const year = now.getFullYear();
+            const month = String(now.getMonth() + 1).padStart(2, '0');
+            const day = String(now.getDate()).padStart(2, '0');
+            const hours = String(now.getHours()).padStart(2, '0');
+            const minutes = String(now.getMinutes()).padStart(2, '0');
+            
+            return `v${year}${month}${day}-${hours}${minutes}`;
+        }
+
+        function updateVersionString() {
+            input.value = generateVersionString();
+        }
+
+        function copyToClipboard() {
+            input.select();
+            document.execCommand('copy');
+            
+            message.textContent = 'コピーしました！';
+            setTimeout(() => {
+                message.textContent = '';
+            }, 2000);
+        }
+
+        button.addEventListener('click', copyToClipboard);
+        
+        // 初期表示
+        updateVersionString();
+    </script>
+</body>
+</html>
