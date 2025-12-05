@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Base64デコードツール</title>
+</head>
+<body>
+
+    <textarea id="base64-input" rows="10" cols="80" placeholder="Base64文字列をペースト:"></textarea><br>
+
+    <button onclick="decodeBase64()">デコード</button>
+
+    <pre id="output-area"></pre>
+
+<script>
+    /**
+     * Base64文字列をデコードし、結果を画面に表示する
+     */
+    function decodeBase64() {
+        const inputElement = document.getElementById('base64-input');
+        const outputElement = document.getElementById('output-area');
+        const base64String = inputElement.value.trim();
+
+        // 入力が空の場合は処理しない
+        if (base64String === "") {
+            outputElement.textContent = ""; // 空の場合は結果エリアも空にする
+            return;
+        }
+
+        try {
+            // Base64デコード処理
+            // 1. atob()でASCII文字列にデコード
+            const decodedAscii = atob(base64String);
+
+            // 2. デコードされたASCII文字列から、UTF-8バイト配列を作成
+            const charCodes = Array.from(decodedAscii).map(char => char.charCodeAt(0));
+            const byteArray = new Uint8Array(charCodes);
+
+            // 3. TextDecoderを使って、バイト配列をUTF-8文字列に変換
+            const decodedString = new TextDecoder('utf-8').decode(byteArray);
+
+            // 結果の表示
+            outputElement.textContent = decodedString;
+
+        } catch (e) {
+            // デコード失敗時（不正なBase64形式など）
+            outputElement.textContent = "デコードに失敗しました。入力された文字列が有効なBase64形式か確認してください。";
+            console.error("Base64デコードエラー:", e);
+        }
+    }
+</script>
+
+</body>
+</html>
